@@ -1,0 +1,61 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/movies": {
+            "post": {
+                "description": "Create New Movie Data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "operationId": "create-new-movie",
+                "parameters": [
+                    {
+                        "description": "request body json",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.NewMovieRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NewMovieRequest"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.NewMovieRequest": {
+            "type": "object",
+            "properties": {
+                "imageUrl": {
+                    "type": "string",
+                    "example": "http://imageurl.com"
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 20000
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Jelangkung"
+                }
+            }
+        }
+    }
+}

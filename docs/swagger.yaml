@@ -1,0 +1,39 @@
+definitions:
+  dto.NewMovieRequest:
+    properties:
+      imageUrl:
+        example: http://imageurl.com
+        type: string
+      price:
+        example: 20000
+        type: integer
+      title:
+        example: Jelangkung
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /movies:
+    post:
+      consumes:
+      - application/json
+      description: Create New Movie Data
+      operationId: create-new-movie
+      parameters:
+      - description: request body json
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewMovieRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.NewMovieRequest'
+      tags:
+      - movies
+swagger: "2.0"
