@@ -29,6 +29,7 @@ func NewMovieHandler(movieService service.MovieService) movieHandler {
 // @ID create-new-movie
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Param RequestBody body dto.NewMovieRequest true "request body json"
 // @Success 201 {object} dto.NewMovieRequest
 // @Router /movies [post]

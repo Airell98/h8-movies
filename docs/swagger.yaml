@@ -1,4 +1,15 @@
 definitions:
+  dto.LoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.TokenResponse'
+      message:
+        type: string
+      result:
+        type: string
+      statusCode:
+        type: integer
+    type: object
   dto.NewMovieRequest:
     properties:
       imageUrl:
@@ -11,6 +22,27 @@ definitions:
         example: Jelangkung
         type: string
     type: object
+  dto.NewUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.NewUserResponse:
+    properties:
+      message:
+        type: string
+      result:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  dto.TokenResponse:
+    properties:
+      token:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -21,6 +53,12 @@ paths:
       description: Create New Movie Data
       operationId: create-new-movie
       parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: request body json
         in: body
         name: RequestBody
@@ -36,4 +74,48 @@ paths:
             $ref: '#/definitions/dto.NewMovieRequest'
       tags:
       - movies
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: User Sign In
+      operationId: user-sign-in
+      parameters:
+      - description: request body json
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginResponse'
+      tags:
+      - users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Create New User Data
+      operationId: create-new-user
+      parameters:
+      - description: request body json
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.NewUserResponse'
+      tags:
+      - users
 swagger: "2.0"

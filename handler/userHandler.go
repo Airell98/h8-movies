@@ -18,6 +18,15 @@ func NewUserHandler(userService service.UserService) userHandler {
 	}
 }
 
+// UserRegister godoc
+// @Tags users
+// @Description Create New User Data
+// @ID create-new-user
+// @Accept json
+// @Produce json
+// @Param RequestBody body dto.NewUserRequest true "request body json"
+// @Success 201 {object} dto.NewUserResponse
+// @Router /users/register [post]
 func (uh *userHandler) Register(ctx *gin.Context) {
 	var newUserRequest dto.NewUserRequest
 
@@ -39,6 +48,15 @@ func (uh *userHandler) Register(ctx *gin.Context) {
 
 }
 
+// UserLogin godoc
+// @Tags users
+// @Description User Sign In
+// @ID user-sign-in
+// @Accept json
+// @Produce json
+// @Param RequestBody body dto.NewUserRequest true "request body json"
+// @Success 200 {object} dto.LoginResponse
+// @Router /users/login [post]
 func (uh *userHandler) Login(ctx *gin.Context) {
 	var newUserRequest dto.NewUserRequest
 
