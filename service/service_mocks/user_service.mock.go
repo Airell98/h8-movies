@@ -11,15 +11,15 @@ var (
 	Login         func(newUserRequest dto.NewUserRequest) (*dto.LoginResponse, errs.MessageErr)
 )
 
-type userServiceMocks struct{}
+type userServiceMock struct{}
 
-func NewUserServiceMocks() service.UserService {
-	return &userServiceMocks{}
+func NewUserServiceMock() service.UserService {
+	return &userServiceMock{}
 }
 
-func (u *userServiceMocks) CreateNewUser(payload dto.NewUserRequest) (*dto.NewUserResponse, errs.MessageErr) {
+func (u *userServiceMock) CreateNewUser(payload dto.NewUserRequest) (*dto.NewUserResponse, errs.MessageErr) {
 	return CreateNewUser(payload)
 }
-func (u *userServiceMocks) Login(newUserRequest dto.NewUserRequest) (*dto.LoginResponse, errs.MessageErr) {
+func (u *userServiceMock) Login(newUserRequest dto.NewUserRequest) (*dto.LoginResponse, errs.MessageErr) {
 	return Login(newUserRequest)
 }

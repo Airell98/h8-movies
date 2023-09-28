@@ -1,9 +1,8 @@
 package main
 
-import (
-	"h8-movies/handler"
-)
+import "h8-movies/handler"
 
 func main() {
 	handler.StartApp()
+
 }

@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"h8-movies/database"
 	"h8-movies/docs"
+	"h8-movies/infra/config"
+	"h8-movies/infra/database"
 	"h8-movies/repository/movie_repository/movie_pg"
 	"h8-movies/repository/user_repository/user_pg"
 	"h8-movies/service"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -15,8 +15,11 @@ import (
 )
 
 func StartApp() {
-	var port = os.Getenv("PORT")
+	config.LoadAppConfig()
+
 	database.InitiliazeDatabase()
+
+	var port = config.GetAppConfig().Port
 
 	db := database.GetDatabaseInstance()
 
@@ -34,13 +37,13 @@ func StartApp() {
 
 	authService := service.NewAuthService(userRepo, movieRepo)
 
-	route := gin.Default()
-
 	docs.SwaggerInfo.Title = "Belajar DDD"
 	docs.SwaggerInfo.Description = "Ini adalah API dengan pattern DDD"
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "h8-movies-production.up.railway.app"
-	docs.SwaggerInfo.Schemes = []string{"https", "http"}
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+
+	route := gin.Default()
 
 	route.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
@@ -62,16 +65,3 @@ func StartApp() {
 
 	route.Run(":" + port)
 }
-
-// {  "planId": 1,
-//   "identificationNumber": "3175082103981004",
-//   "name": "Tsana",
-//   "pob": "Jakarta",
-//   "dob": "21-03-1992",
-//   "phoneNumber": "089637750999",
-//   "email": "tsana@gmail.com",
-//   "postalCode": "12710",
-//   "address": "Jakarta",
-//   "gender": "male",
-//   "identificationImageFileId": "9999",
-//   }

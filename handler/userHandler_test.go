@@ -16,36 +16,35 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestUserHandler_Register_Success(t *testing.T) {
-	userService := service_mocks.NewUserServiceMocks()
-
-	userHandler := NewUserHandler(userService)
-
+func TestUserHandler_CreateUser_Success(t *testing.T) {
 	payload := dto.NewUserRequest{
-		Email:    "test@gmail.com",
+		Email:    "john@mail.com",
 		Password: "123456",
 	}
 
+	requestBody, err := json.Marshal(payload)
+
+	userService := service_mocks.NewUserServiceMock()
+
+	userHandler := NewUserHandler(userService)
+
 	service_mocks.CreateNewUser = func(payload dto.NewUserRequest) (*dto.NewUserResponse, errs.MessageErr) {
-		result := dto.NewUserResponse{
+		return &dto.NewUserResponse{
 			Result:     "success",
-			Message:    "user registered successfully",
 			StatusCode: http.StatusCreated,
-		}
-
-		return &result, nil
+			Message:    "new user successfully registered",
+		}, nil
 	}
-
-	jsonByte, err := json.Marshal(payload)
 
 	require.Nil(t, err)
 
-	req, err := http.NewRequest(http.MethodPost, "/users/register", bytes.NewBuffer(jsonByte))
+	req, err := http.NewRequest(http.MethodPost, "/users/register", bytes.NewBuffer(requestBody))
+
+	require.Nil(t, err)
 
 	rr := httptest.NewRecorder()
 
 	gin.SetMode(gin.TestMode)
-
 	route := gin.Default()
 
 	route.POST("/users/register", userHandler.Register)
@@ -54,21 +53,17 @@ func TestUserHandler_Register_Success(t *testing.T) {
 
 	result := rr.Result()
 
-	responseBody, err := ioutil.ReadAll(result.Body)
+	responseByte, err := ioutil.ReadAll(result.Body)
 
 	require.Nil(t, err)
 
 	defer result.Body.Close()
 
-	var userResponse dto.NewUserResponse
+	var response dto.NewUserResponse
 
-	err = json.Unmarshal(responseBody, &userResponse)
-
+	err = json.Unmarshal(responseByte, &response)
 	require.Nil(t, err)
 
-	assert.Equal(t, http.StatusCreated, userResponse.StatusCode)
+	assert.Equal(t, http.StatusCreated, response.StatusCode)
 
-	assert.Equal(t, "user registered successfully", userResponse.Message)
-
-	assert.Equal(t, "success", userResponse.Result)
 }

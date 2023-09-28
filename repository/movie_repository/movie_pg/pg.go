@@ -28,7 +28,7 @@ type moviePG struct {
 	db *sql.DB
 }
 
-func NewMoviePG(db *sql.DB) movie_repository.MovieRepository {
+func NewMoviePG(db *sql.DB) movie_repository.Repository {
 	return &moviePG{
 		db: db,
 	}

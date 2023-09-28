@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"h8-movies/entity"
 	"h8-movies/pkg/errs"
 	"h8-movies/pkg/helpers"
@@ -16,11 +17,11 @@ type AuthService interface {
 }
 
 type authService struct {
-	userRepo  user_repository.UserRepository
-	movieRepo movie_repository.MovieRepository
+	userRepo  user_repository.Repository
+	movieRepo movie_repository.Repository
 }
 
-func NewAuthService(userRepo user_repository.UserRepository, movieRepo movie_repository.MovieRepository) AuthService {
+func NewAuthService(userRepo user_repository.Repository, movieRepo movie_repository.Repository) AuthService {
 	return &authService{
 		userRepo:  userRepo,
 		movieRepo: movieRepo,
@@ -31,9 +32,10 @@ func (a *authService) Authorization() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user := ctx.MustGet("userData").(entity.User)
 
-		movieId, err := helpers.GetParamId(ctx, "movieId")
+		movieId, err := helpers.GetParamId(ctx, "movieId") // 7
 
 		if err != nil {
+			fmt.Printf("[Authorization]: %s\n", err.Error())
 			ctx.AbortWithStatusJSON(err.Status(), err)
 			return
 		}
@@ -41,6 +43,7 @@ func (a *authService) Authorization() gin.HandlerFunc {
 		movie, err := a.movieRepo.GetMovieById(movieId)
 
 		if err != nil {
+			fmt.Printf("[Authorization]: %s\n", err.Error())
 			ctx.AbortWithStatusJSON(err.Status(), err)
 			return
 		}
@@ -66,6 +69,7 @@ func (a *authService) Authentication() gin.HandlerFunc {
 		err := user.ValidateToken(bearerToken)
 
 		if err != nil {
+			fmt.Printf("[Authentication]: %s\n", err.Error())
 			ctx.AbortWithStatusJSON(err.Status(), err)
 			return
 		}

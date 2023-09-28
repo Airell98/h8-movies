@@ -3,19 +3,10 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"h8-movies/infra/config"
 	"log"
-	"os"
 
 	_ "github.com/lib/pq"
-)
-
-var (
-	host     = os.Getenv("PG_HOST")
-	port     = os.Getenv("PG_PORT")
-	user     = os.Getenv("PG_USER")
-	password = os.Getenv("PG_PASSWORD")
-	dbname   = os.Getenv("PG_DB_NAME")
-	dialect  = "postgres"
 )
 
 var (
@@ -24,11 +15,12 @@ var (
 )
 
 func handleDatabaseConnection() {
+	appConfig := config.GetAppConfig()
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname,
+		appConfig.DBHost, appConfig.DBPort, appConfig.DBUser, appConfig.DBPassword, appConfig.DBName,
 	)
 
-	db, err = sql.Open(dialect, psqlInfo)
+	db, err = sql.Open(appConfig.DBDialect, psqlInfo)
 
 	if err != nil {
 		log.Panic("error occured while trying to validate database arguments:", err)

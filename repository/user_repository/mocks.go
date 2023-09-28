@@ -11,21 +11,21 @@ var (
 	GetUserByEmail func(userEmail string) (*entity.User, errs.MessageErr)
 )
 
-type userMockRepository struct {
+type repositoryMock struct {
 }
 
-func NewUserMockRespository() UserRepository {
-	return &userMockRepository{}
+func NewRepositoryMock() Repository {
+	return &repositoryMock{}
 }
 
-func (u *userMockRepository) CreateNewUser(user entity.User) errs.MessageErr {
-
+func (rm *repositoryMock) CreateNewUser(user entity.User) errs.MessageErr {
 	return CreateNewUser(user)
 }
 
-func (u *userMockRepository) GetUserById(userId int) (*entity.User, errs.MessageErr) {
+func (rm *repositoryMock) GetUserById(userId int) (*entity.User, errs.MessageErr) {
 	return GetUserById(userId)
 }
-func (u *userMockRepository) GetUserByEmail(userEmail string) (*entity.User, errs.MessageErr) {
+
+func (rm *repositoryMock) GetUserByEmail(userEmail string) (*entity.User, errs.MessageErr) {
 	return GetUserByEmail(userEmail)
 }

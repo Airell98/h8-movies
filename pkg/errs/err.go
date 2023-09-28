@@ -8,26 +8,26 @@ type MessageErr interface {
 	Error() string
 }
 
-type MessageErrData struct {
+type ErrorData struct {
 	ErrMessage string `json:"message"`
 	ErrStatus  int    `json:"status"`
 	ErrError   string `json:"error"`
 }
 
-func (e *MessageErrData) Message() string {
+func (e *ErrorData) Message() string {
 	return e.ErrMessage
 }
 
-func (e *MessageErrData) Status() int {
+func (e *ErrorData) Status() int {
 	return e.ErrStatus
 }
 
-func (e *MessageErrData) Error() string {
+func (e *ErrorData) Error() string {
 	return e.ErrError
 }
 
 func NewUnauthorizedError(message string) MessageErr {
-	return &MessageErrData{
+	return &ErrorData{
 		ErrMessage: message,
 		ErrStatus:  http.StatusForbidden,
 		ErrError:   "NOT_AUTHORIZED",
@@ -35,7 +35,7 @@ func NewUnauthorizedError(message string) MessageErr {
 }
 
 func NewUnauthenticatedError(message string) MessageErr {
-	return &MessageErrData{
+	return &ErrorData{
 		ErrMessage: message,
 		ErrStatus:  http.StatusUnauthorized,
 		ErrError:   "NOT_AUTHENTICATED",
@@ -43,7 +43,7 @@ func NewUnauthenticatedError(message string) MessageErr {
 }
 
 func NewNotFoundError(message string) MessageErr {
-	return &MessageErrData{
+	return &ErrorData{
 		ErrMessage: message,
 		ErrStatus:  http.StatusNotFound,
 		ErrError:   "NOT_FOUND",
@@ -51,7 +51,7 @@ func NewNotFoundError(message string) MessageErr {
 }
 
 func NewBadRequest(message string) MessageErr {
-	return &MessageErrData{
+	return &ErrorData{
 		ErrMessage: message,
 		ErrStatus:  http.StatusBadRequest,
 		ErrError:   "BAD_REQUEST",
@@ -59,7 +59,7 @@ func NewBadRequest(message string) MessageErr {
 }
 
 func NewInternalServerError(message string) MessageErr {
-	return &MessageErrData{
+	return &ErrorData{
 		ErrMessage: message,
 		ErrStatus:  http.StatusInternalServerError, //500
 		ErrError:   "INTERNAL_SERVER_ERROR",
@@ -67,7 +67,7 @@ func NewInternalServerError(message string) MessageErr {
 }
 
 func NewUnprocessibleEntityError(message string) MessageErr {
-	return &MessageErrData{
+	return &ErrorData{
 		ErrMessage: message,
 		ErrStatus:  http.StatusUnprocessableEntity,
 		ErrError:   "INVALID_REQUEST_BODY",

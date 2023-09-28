@@ -7,6 +7,7 @@ import (
 )
 
 func ValidateStruct(payload interface{}) errs.MessageErr {
+
 	_, err := govalidator.ValidateStruct(payload)
 
 	if err != nil {

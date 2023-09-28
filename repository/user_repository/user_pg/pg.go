@@ -33,7 +33,7 @@ type userPG struct {
 	db *sql.DB
 }
 
-func NewUserPG(db *sql.DB) user_repository.UserRepository {
+func NewUserPG(db *sql.DB) user_repository.Repository {
 	return &userPG{
 		db: db,
 	}

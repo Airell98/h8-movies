@@ -15,10 +15,10 @@ type MovieService interface {
 }
 
 type movieService struct {
-	movieRepo movie_repository.MovieRepository
+	movieRepo movie_repository.Repository
 }
 
-func NewMovieService(movieRepo movie_repository.MovieRepository) MovieService {
+func NewMovieService(movieRepo movie_repository.Repository) MovieService {
 	return &movieService{
 		movieRepo: movieRepo,
 	}
@@ -55,6 +55,12 @@ func (m *movieService) UpdateMovieById(movieId int, movieRequest dto.NewMovieReq
 }
 
 func (m *movieService) CreateMovie(userId int, payload dto.NewMovieRequest) (*dto.NewMovieResponse, errs.MessageErr) {
+	err := helpers.ValidateStruct(payload)
+
+	if err != nil {
+		return nil, err
+	}
+
 	movieRequest := &entity.Movie{
 		Title:    payload.Title,
 		Price:    payload.Price,
@@ -62,7 +68,7 @@ func (m *movieService) CreateMovie(userId int, payload dto.NewMovieRequest) (*dt
 		UserId:   userId,
 	}
 
-	_, err := m.movieRepo.CreateMovie(movieRequest)
+	_, err = m.movieRepo.CreateMovie(movieRequest)
 
 	if err != nil {
 		return nil, err
