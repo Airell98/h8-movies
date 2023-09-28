@@ -40,8 +40,8 @@ func StartApp() {
 	docs.SwaggerInfo.Title = "Belajar DDD"
 	docs.SwaggerInfo.Description = "Ini adalah API dengan pattern DDD"
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "localhost:8080"
-	docs.SwaggerInfo.Schemes = []string{"http"}
+	docs.SwaggerInfo.Host = "https://h8-movies-production.up.railway.app"
+	docs.SwaggerInfo.Schemes = []string{"https"}
 
 	route := gin.Default()
 

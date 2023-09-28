@@ -1,7 +1,7 @@
 package dto
 
 type NewUserRequest struct {
-	Email    string `json:"email" valid:"required~email cannot be empty"`
+	Email    string `json:"email" valid:"required~has to be a valid email"`
 	Password string `json:"password" valid:"required~password cannot be empty"`
 }
 
